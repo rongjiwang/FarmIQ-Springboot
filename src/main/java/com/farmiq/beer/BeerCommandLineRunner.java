@@ -25,7 +25,7 @@ public class BeerCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        final String query = "select id,name from [farmiq-pr12.0].[dbo].[beer]";
+        final String query = "select * from [dbo].[beer]";
         //final String query = "select * from [farmiq-pr12.0].[dbo].[Country]";
 
         List<Beer> beers = jdbcTemplate.query(query, new RowMapper<Beer>() {
