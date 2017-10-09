@@ -25,7 +25,7 @@ public class FarmDetailController {
              model.addAttribute("farmList", repository.findAll());
          }
      }*/
-
+    //delete later- this comment
     @GetMapping("/farms")
     @CrossOrigin(origins = "http://localhost:4200")
     public Collection<Map<String, String>> farmdetails(){
