@@ -28,7 +28,7 @@ public class BeerCommandLineRunner implements CommandLineRunner {
         final String query = "select * from [dbo].[beer]";
         //final String query = "select * from [farmiq-pr12.0].[dbo].[Country]";
 
-        List<Beer> beers = jdbcTemplate.query(query, new RowMapper<Beer>() {
+        /*List<Beer> beers = jdbcTemplate.query(query, new RowMapper<Beer>() {
             @Override
             public Beer mapRow(ResultSet resultSet, int i) throws SQLException {
                 Beer beer = new Beer();
@@ -37,10 +37,10 @@ public class BeerCommandLineRunner implements CommandLineRunner {
                 repository.save(beer);
                 return beer;
             }
-        });
+        });*/
 
-        //Stream.of("Kentucky Brunch Brand Stout", "Good Morning", "Very Hazy").forEach(name -> repository.save(new Beer(name)));
+        Stream.of("Kentucky Brunch Brand Stout", "Good Morning", "Very Hazy").forEach(name -> repository.save(new Beer(name)));
 
-        //repository.findAll().forEach(System.out::println);
+        repository.findAll().forEach(System.out::println);
     }
 }

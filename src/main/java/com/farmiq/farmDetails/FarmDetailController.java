@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -17,13 +18,22 @@ public class FarmDetailController {
         this.repository = repository;
     }
 
-    @GetMapping("/farmdetails")
+
+    /* public void home(Model model) {
+         if (!model.containsAttribute("farmList")) {
+             System.out.println("Should Not Be Here");
+             model.addAttribute("farmList", repository.findAll());
+         }
+     }*/
+
+    @GetMapping("/farms")
     @CrossOrigin(origins = "http://localhost:4200")
-    public Collection<Map<String, String>> farmdetails() {
+    public Collection<Map<String, String>> farmdetails(){
+
         return repository.findAll().stream().map(
                 b -> {
                     Map<String, String> m = new HashMap<>();
-                    m.put("id", b.getId().toString());
+                    m.put("geometry", b.getGeometry().toString());
                     m.put("name", b.getName());
                     return m;
                 }
