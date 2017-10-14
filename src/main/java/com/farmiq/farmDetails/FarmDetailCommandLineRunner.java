@@ -34,92 +34,60 @@ public class FarmDetailCommandLineRunner implements CommandLineRunner {
     private JdbcTemplate jdbcTemplate;
 
 
-
-    public FarmDetailCommandLineRunner(FarmDetailRepository repository){
+    public FarmDetailCommandLineRunner(FarmDetailRepository repository) {
         this.repository = repository;
     }
 
-//    @Override
-//    public void run(String... strings) throws Exception {
-//        System.out.println("**"+strings+"**");
-//        String query = "select * from [dbo].[v_farmDetails] f inner join [dbo].[Dimensions] d on (f.dimensionsId = d.id) where f.id=152";
-//    }
-
     @Override
     public void run(String... strings) throws Exception {
-       final String query = "select area, geometry.STAsText() geometry, name, regionId from [dbo].[v_farmDetails] f inner join [dbo].[Dimensions] d on (f.dimensionsId = d.id) where f.id=152";
+        //final String query = "select area, geometry.STAsText() geoText, name, regionId from [dbo].[v_farmDetails] f inner join [dbo].[Dimensions] d on (f.dimensionsId = d.id) where f.id=152";
         //final String query = "select * from [dbo].[Dimensions]";
-        System.out.println("hello world");
+        final String query = "select *, geometry.STAsText() geoText from [v_NutrientApplicationsSummary] where farmId = 152";
 
-        List<FarmDetail> farmDetails = jdbcTemplate.query(query, new RowMapper<FarmDetail>(){
+        List<FarmDetail> farmDetails = jdbcTemplate.query(query, new RowMapper<FarmDetail>() {
             @Override
             public FarmDetail mapRow(ResultSet resultSet, int i) throws SQLException {
                 FarmDetail farmDetail = new FarmDetail();
 
-                ResultSetMetaData rs = resultSet.getMetaData();
+                /*ResultSetMetaData rs = resultSet.getMetaData();
                 int columnCount = rs.getColumnCount();
-                for (int x = 1; x <= columnCount; x++)  {
+                for (int x = 1; x <= columnCount; x++) {
                     String s = rs.getColumnTypeName(x);
                     String d = rs.getColumnLabel(x);
-                    System.out.println ("Column " + x + " is type " + s+"  "+d);
-                }
-                //EntityManager em = JPAUtil.createEntityManager();
-                //em.getTransaction().begin();
-
-                //farmDetail.setId(resultSet.getLong("id"));
-                farmDetail.setArea(resultSet.getDouble("area"));
-                String temp = resultSet.getString("geometry");
-                System.out.println(temp);
-                //Polygon poly = new Polygon(temp);
-                //byte[] raw = resultSet.getBytes("geometry");
-                //WKBReader kb = new WKBReader(raw);
-                //System.out.println(raw.toString()+ " "+raw.length);
-                WKTReader wktReader = new WKTReader();
-
-
-                try {
-                    Geometry geom = wktReader.read(temp);
-                    //geom.setSRID(4326);
-                    System.out.println(geom.getGeometryType()+" **"+geom.getArea());
-                    //farmDetail.setGeometry((Polygon) geom);
-                    Polygon pp = (Polygon)geom;
-                    //farmDetail.setGeometry(wktReader.read("POINT(-105.069999694824 39.75)"));
-                    GeoJSONWriter writer = new GeoJSONWriter();
-                    GeoJSON json = writer.write(geom);
-                    String jsonstring = json.toString();
-                    System.out.println("**   "+jsonstring);
-
-                    GeoJSONReader reader = new GeoJSONReader();
-                    Geometry geometry = reader.read(json);
-                    farmDetail.setGeometry(jsonstring);
-
-                    System.out.println(pp.getArea()+" "+ Arrays.toString(pp.getCoordinates()));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-               /* WKBReader reader = new WKBReader();
-
-
-                Geometry gg = null;
-                try {
-                    gg = reader.read(raw);
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }*/
-                //farmDetail.setGeometry(temp);
-                //Point geo = new Point(-42.2322334333,171.33376358378);
-                //System.out.println(geo.getX()+" "+geo.getY());
-                //farmDetail.setGeometry(temp);
+/*
+                farmDetail.setArea(resultSet.getDouble("area"));
                 farmDetail.setName(resultSet.getString("name"));
+                farmDetail.setRegionId(resultSet.getLong("regionId"));*/
 
-                farmDetail.setRegionId(resultSet.getLong("regionId"));
-                System.out.println("would hello!!");
-                //em.persist(farmDetail);
-                //em.getTransaction().commit();
-                //em.close();
+                //load data from database
+                farmDetail.setUnitsHa(resultSet.getDouble("unitsHa"));
+                farmDetail.setCalciumValue(resultSet.getDouble("Calcium_Value"));
+                farmDetail.setCalciumPerHa(resultSet.getDouble("Calcium_perHa"));
+                farmDetail.setSulfurValue(resultSet.getDouble("Sulfur_Value"));
+                farmDetail.setSulfurPerHa(resultSet.getDouble("Sulfur_perHa"));
+                farmDetail.setNitrogenValue(resultSet.getDouble("Nitrogen_Value"));
+                farmDetail.setNitrogenPerHa(resultSet.getDouble("Nitrogen_perHa"));
+                farmDetail.setPhosphorusValue(resultSet.getDouble("Phosphorus_Value"));
+                farmDetail.setPhosphorusPerHa(resultSet.getDouble("Phosphorus_perHa"));
+                farmDetail.setPotassiumValue(resultSet.getDouble("Potassium_Value"));
+                farmDetail.setPotassiumPerHa(resultSet.getDouble("Potassium_perHa"));
+
+
+                String geoEncodeDatabaseType = resultSet.getString("geoText");
+
+                WKTReader wktReader = new WKTReader();
+                try {
+                    Geometry geoObj = wktReader.read(geoEncodeDatabaseType);
+                    GeoJSONWriter writer = new GeoJSONWriter();
+                    GeoJSON geoDecodeJsonType = writer.write(geoObj);
+                    String geoJsonString = geoDecodeJsonType.toString();
+                    farmDetail.setGeometry(geoJsonString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 repository.save(farmDetail);
-                System.out.println("would hello");
-
                 return farmDetail;
             }
         });

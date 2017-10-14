@@ -34,7 +34,22 @@ public class FarmDetailController {
                 b -> {
                     Map<String, String> m = new HashMap<>();
                     m.put("geometry", b.getGeometry().toString());
-                    m.put("name", b.getName());
+                    m.put("id", b.getId().toString());
+                    m.put("unitsHa", String.valueOf(b.getUnitsHa()));
+                    m.put("calciumValue", String.valueOf(b.getCalciumValue()));
+                    m.put("calciumPerHa", String.valueOf(b.getCalciumPerHa()));
+                    m.put("sulfurValue", String.valueOf(b.getSulfurValue()));
+                    m.put("sulfurPerHa", String.valueOf(b.getSulfurPerHa()));
+                    m.put("NitrogenValue", String.valueOf(b.getNitrogenValue()));
+                    m.put("NitrogenPerHa", String.valueOf(b.getNitrogenPerHa()));
+                    m.put("phosphorusValue", String.valueOf(b.getPhosphorusValue()));
+                    m.put("phosphorusPerHa", String.valueOf(b.getPhosphorusPerHa()));
+                    m.put("potassiumValue", String.valueOf(b.getPotassiumValue()));
+                    m.put("potassiumPerHa", String.valueOf(b.getPotassiumPerHa()));
+
+                   /* m.put("name", b.getName());
+                    m.put("area", String.valueOf(b.getArea()));
+                    m.put("regionId", String.valueOf(b.getRegionId()));*/
                     return m;
                 }
         ).collect(Collectors.toList());
