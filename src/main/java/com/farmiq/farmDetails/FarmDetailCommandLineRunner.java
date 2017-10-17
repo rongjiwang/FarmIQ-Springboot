@@ -43,6 +43,12 @@ public class FarmDetailCommandLineRunner implements CommandLineRunner {
         //final String query = "select area, geometry.STAsText() geoText, name, regionId from [dbo].[v_farmDetails] f inner join [dbo].[Dimensions] d on (f.dimensionsId = d.id) where f.id=152";
         //final String query = "select * from [dbo].[Dimensions]";
         final String query = "select *, geometry.STAsText() geoText from [v_NutrientApplicationsSummary] where farmId = 152";
+        /*final String query = "select geometry.STAsText() geoText, 'Nitrogen' as 'characteristic', perHa as 'averageFertiliser', '' as 'printcolour' \n" +
+                "    from v_NutrientApplications vw \n" +
+                "    where farmid = 3426\n" +
+                "    and characteristicType = 'Nitrogen' \n" +
+                "    and eventDate between '2015-07-01' and '2016-07-01' \n" +
+                "    and vw.perHa > 0";*/
 
         List<FarmDetail> farmDetails = jdbcTemplate.query(query, new RowMapper<FarmDetail>() {
             @Override
@@ -61,7 +67,9 @@ public class FarmDetailCommandLineRunner implements CommandLineRunner {
                 farmDetail.setRegionId(resultSet.getLong("regionId"));*/
 
                 //load data from database
-                farmDetail.setUnitsHa(resultSet.getDouble("unitsHa"));
+                //farmDetail.setNitrogenValue(resultSet.getDouble("averageFertiliser"));
+
+           /*     farmDetail.setUnitsHa(resultSet.getDouble("unitsHa"));
                 farmDetail.setCalciumValue(resultSet.getDouble("Calcium_Value"));
                 farmDetail.setCalciumPerHa(resultSet.getDouble("Calcium_perHa"));
                 farmDetail.setSulfurValue(resultSet.getDouble("Sulfur_Value"));
@@ -71,7 +79,7 @@ public class FarmDetailCommandLineRunner implements CommandLineRunner {
                 farmDetail.setPhosphorusValue(resultSet.getDouble("Phosphorus_Value"));
                 farmDetail.setPhosphorusPerHa(resultSet.getDouble("Phosphorus_perHa"));
                 farmDetail.setPotassiumValue(resultSet.getDouble("Potassium_Value"));
-                farmDetail.setPotassiumPerHa(resultSet.getDouble("Potassium_perHa"));
+                farmDetail.setPotassiumPerHa(resultSet.getDouble("Potassium_perHa"));*/
 
 
                 String geoEncodeDatabaseType = resultSet.getString("geoText");

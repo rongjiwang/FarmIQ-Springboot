@@ -27,8 +27,8 @@ public class FarmDetailController {
      }*/
     //delete later- this comment
     @GetMapping("/farms")
-    @CrossOrigin(origins = "http://localhost:4200")
-    public Collection<Map<String, String>> farmdetails(){
+    @CrossOrigin(origins = {"http://localhost:8000", "http://localhost:4200", "http://192.168.1.70:4200", "172.20.10.4:4200"})
+    public Collection<Map<String, String>> farmdetails() {
 
         return repository.findAll().stream().map(
                 b -> {
@@ -46,7 +46,7 @@ public class FarmDetailController {
                     m.put("phosphorusPerHa", String.valueOf(b.getPhosphorusPerHa()));
                     m.put("potassiumValue", String.valueOf(b.getPotassiumValue()));
                     m.put("potassiumPerHa", String.valueOf(b.getPotassiumPerHa()));
-
+                    System.out.println("Requesting Data!~");
                    /* m.put("name", b.getName());
                     m.put("area", String.valueOf(b.getArea()));
                     m.put("regionId", String.valueOf(b.getRegionId()));*/
