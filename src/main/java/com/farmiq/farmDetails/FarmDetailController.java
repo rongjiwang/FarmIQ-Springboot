@@ -18,14 +18,6 @@ public class FarmDetailController {
         this.repository = repository;
     }
 
-
-    /* public void home(Model model) {
-         if (!model.containsAttribute("farmList")) {
-             System.out.println("Should Not Be Here");
-             model.addAttribute("farmList", repository.findAll());
-         }
-     }*/
-    //delete later- this comment
     @GetMapping("/farms")
     @CrossOrigin(origins = {"http://localhost:8000", "http://localhost:4200", "http://192.168.1.70:4200", "172.20.10.4:4200"})
     public Collection<Map<String, String>> farmdetails() {

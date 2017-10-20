@@ -55,13 +55,7 @@ public class FarmDetailCommandLineRunner implements CommandLineRunner {
             public FarmDetail mapRow(ResultSet resultSet, int i) throws SQLException {
                 FarmDetail farmDetail = new FarmDetail();
 
-                /*ResultSetMetaData rs = resultSet.getMetaData();
-                int columnCount = rs.getColumnCount();
-                for (int x = 1; x <= columnCount; x++) {
-                    String s = rs.getColumnTypeName(x);
-                    String d = rs.getColumnLabel(x);
-                }*/
-/*
+                /*
                 farmDetail.setArea(resultSet.getDouble("area"));
                 farmDetail.setName(resultSet.getString("name"));
                 farmDetail.setRegionId(resultSet.getLong("regionId"));*/
